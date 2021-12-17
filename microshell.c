@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2021/12/17 12:57:13 by shackbei         ###   ########.fr       */
+/*   Updated: 2021/12/17 13:18:52 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		argv = &argv[1];
 		i = 0;
+		//count untill we have all invormations to execute the next child;
 		while (argv[i] && strcmp(argv[i], ";") && strcmp(argv[i], "|"))
 			i++;
-		if (strcmp(argv[0], "cd") == 0)
+		if (strcmp(argv[0], "cd") == 0) //cd
 		{
 			if (i != 2)
 				ft_putstr_fd2("error: cd: bad arguments\n");
@@ -61,7 +62,7 @@ int	main(int argc, char *argv[], char *env[])
 				write(2, "\n", 1);
 			}
 		}
-		else if (argv != &argv[i] && (argv[i] == NULL || strcmp(argv[i], ";") == 0))
+		else if (argv != &argv[i] && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
 		{
 			pid = fork();
 			if ( pid == 0)
@@ -77,7 +78,7 @@ int	main(int argc, char *argv[], char *env[])
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
-		else if(argv != &argv[i] && strcmp(argv[i], "|") == 0)
+		else if(argv != &argv[i] && strcmp(argv[i], "|") == 0) //pipe
 		{
 			pipe(fd);
 			pid = fork();
