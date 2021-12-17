@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2021/12/17 13:18:52 by shackbei         ###   ########.fr       */
+/*   Updated: 2021/12/17 13:23:32 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	ft_putstr_fd2(char *str)
 
 int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 {
+	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
+	//we are here in the child so it has no impact in the Parrent Proces.
 	argv[i] = NULL;
 	close(tmp_fd);
 	execve(argv[0], argv, env);
