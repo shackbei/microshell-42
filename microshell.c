@@ -98,7 +98,7 @@ int	main(int argc, char *argv[], char *env[])
 				close(fd[1]);
 				close(tmp_fd);
 				waitpid(-1, NULL, WUNTRACED);
-				dup2(fd[0], tmp_fd);
+				tmp_fd = dup(fd[0]);
 				close(fd[0]);
 			}
 		}
