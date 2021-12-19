@@ -43,6 +43,7 @@ int	main(int argc, char *argv[], char *env[])
 	int pid;
 	int fd[2];
 	int tmp_fd;
+	(void)argc;	// not needed in exam, but necessery if ou compile with -Wall -Wextra -Werror Flags  
 
 	pid = 0;
 	i = 0;
@@ -105,4 +106,5 @@ int	main(int argc, char *argv[], char *env[])
 		}
 	}
 	close(tmp_fd);
+	return (0);
 }
