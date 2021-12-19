@@ -45,10 +45,11 @@ int	main(int argc, char *argv[], char *env[])
 	int tmp_fd;
 
 	pid = 0;
+	i = 0;
 	tmp_fd = dup(STDIN_FILENO);
-	while (argv[1] != NULL)
+	while (argv[i] && argv[i + 1]) //check if the end is reached
 	{
-		argv = &argv[1];
+		argv = &argv[i + 1];	//the new argv start after the ; or |
 		i = 0;
 		//count untill we have all invormations to execute the next child;
 		while (argv[i] && strcmp(argv[i], ";") && strcmp(argv[i], "|"))
