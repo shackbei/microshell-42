@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2021/12/20 12:49:01 by shackbei         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:53:50 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-/*not needed in exam, but necessery if you want to use this tester:
+/*not needed in exam, but necessary if you want to use this tester:
 https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
 // #ifdef TEST_SH
 // # define TEST		1
@@ -51,7 +51,7 @@ int	main(int argc, char *argv[], char *env[])
 	int pid;
 	int fd[2];
 	int tmp_fd;
-	(void)argc;	// not needed in exam, but necessery if ou compile with -Wall -Wextra -Werror Flags
+	(void)argc;	// not needed in exam, but necessary if ou compile with -Wall -Wextra -Werror Flags
 
 	pid = 0;
 	i = 0;
@@ -114,7 +114,7 @@ int	main(int argc, char *argv[], char *env[])
 		}
 	}
 	close(tmp_fd);
-	// if (TEST)		// not needed in exam, but necessery if you want to use this tester:
+	// if (TEST)		// not needed in exam, but necessary if you want to use this tester:
 	// 	while (1);	// https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh
 	return (0);
 }
