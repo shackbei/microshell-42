@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tblaase <tblaase@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2021/12/20 12:53:50 by shackbei         ###   ########.fr       */
+/*   Updated: 2022/03/28 18:11:55 by tblaase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char *argv[], char *env[])
 	int pid;
 	int fd[2];
 	int tmp_fd;
-	(void)argc;	// not needed in exam, but necessary if ou compile with -Wall -Wextra -Werror Flags
+	(void)argc;	// is needed in exam, because the exam tester compiles with -Wall -Wextra -Werror
 
 	pid = 0;
 	i = 0;
