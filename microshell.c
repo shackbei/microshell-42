@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/04/09 15:54:36 by shackbei         ###   ########.fr       */
+/*   Updated: 2022/04/09 16:05:20 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 /*not needed in exam, but necessary if you want to use this tester:
 https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
-#ifdef TEST_SH
-# define TEST		1
-#else
-# define TEST		0
-#endif
+// #ifdef TEST_SH
+// # define TEST		1
+// #else
+// # define TEST		0
+// #endif
 
 void	ft_putstr_fd2(char *str)
 {
@@ -117,7 +117,7 @@ int	main(int argc, char *argv[], char *env[])
 	while(waitpid(-1, NULL, WUNTRACED) != -1)
 		;
 
-	if (TEST)		// not needed in exam, but necessary if you want to use this tester:
-		while (1);	// https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh
+	// if (TEST)		// not needed in exam, but necessary if you want to use this tester:
+	// 	while (1);	// https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh
 	return (0);
 }
