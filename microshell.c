@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblaase <tblaase@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/03/28 18:11:55 by tblaase          ###   ########.fr       */
+/*   Updated: 2022/04/09 15:54:36 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 /*not needed in exam, but necessary if you want to use this tester:
 https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
-// #ifdef TEST_SH
-// # define TEST		1
-// #else
-// # define TEST		0
-// #endif
+#ifdef TEST_SH
+# define TEST		1
+#else
+# define TEST		0
+#endif
 
 void	ft_putstr_fd2(char *str)
 {
@@ -32,12 +32,11 @@ void	ft_putstr_fd2(char *str)
 	write(2, str, i);
 }
 
-int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
+int ft_execute(char *argv[], int i, char *env[])
 {
 	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the Parrent Proces.
 	argv[i] = NULL;
-	close(tmp_fd);
 	execve(argv[0], argv, env);
 	ft_putstr_fd2("error: cannot execute ");
 	ft_putstr_fd2(argv[0]);
@@ -60,7 +59,7 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		argv = &argv[i + 1];	//the new argv start after the ; or |
 		i = 0;
-		//count untill we have all invormations to execute the next child;
+		//count until we have all invormations to execute the next child;
 		while (argv[i] && strcmp(argv[i], ";") && strcmp(argv[i], "|"))
 			i++;
 		if (strcmp(argv[0], "cd") == 0) //cd
@@ -74,23 +73,23 @@ int	main(int argc, char *argv[], char *env[])
 				write(2, "\n", 1);
 			}
 		}
-		else if (argv != &argv[i] && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
+		else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
 		{
 			pid = fork();
 			if ( pid == 0)
 			{
 				dup2(tmp_fd, STDIN_FILENO);
-				if (ft_execute(argv, i , tmp_fd, env))
+				close(tmp_fd);
+				if (ft_execute(argv, i , env))
 					return (1);
 			}
 			else
 			{
 				close(tmp_fd);
-				waitpid(-1, NULL, WUNTRACED);
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
-		else if(argv != &argv[i] && strcmp(argv[i], "|") == 0) //pipe
+		else if(i != 0 && strcmp(argv[i], "|") == 0) //pipe
 		{
 			pipe(fd);
 			pid = fork();
@@ -100,21 +99,25 @@ int	main(int argc, char *argv[], char *env[])
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
-				if (ft_execute(argv, i , tmp_fd, env))
+				close(tmp_fd);
+				if (ft_execute(argv, i , env))
 					return (1);
 			}
 			else
 			{
 				close(fd[1]);
 				close(tmp_fd);
-				waitpid(-1, NULL, WUNTRACED);
-				tmp_fd = dup(fd[0]);
-				close(fd[0]);
+				tmp_fd = fd[0];
 			}
 		}
 	}
 	close(tmp_fd);
-	// if (TEST)		// not needed in exam, but necessary if you want to use this tester:
-	// 	while (1);	// https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh
+
+	//waitpid returns -1 when all created child processes have returned
+	while(waitpid(-1, NULL, WUNTRACED) != -1)
+		;
+
+	if (TEST)		// not needed in exam, but necessary if you want to use this tester:
+		while (1);	// https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh
 	return (0);
 }
