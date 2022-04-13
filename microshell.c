@@ -86,7 +86,7 @@ int	main(int argc, char *argv[], char *env[])
 			else
 			{
 				close(tmp_fd);
-				waitpid(-1, NULL, WUNTRACED);
+				while(waitpid(-1, NULL, WUNTRACED) != -1)
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
@@ -108,7 +108,6 @@ int	main(int argc, char *argv[], char *env[])
 			{
 				close(fd[1]);
 				close(tmp_fd);
-				waitpid(-1, NULL, WUNTRACED);
 				tmp_fd = fd[0];
 			}
 		}
