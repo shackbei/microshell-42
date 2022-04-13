@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/04/09 16:05:20 by shackbei         ###   ########.fr       */
+/*   Updated: 2022/04/13 11:12:36 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int argc, char *argv[], char *env[])
 			else
 			{
 				close(tmp_fd);
+				waitpid(-1, NULL, WUNTRACED);
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
@@ -107,16 +108,12 @@ int	main(int argc, char *argv[], char *env[])
 			{
 				close(fd[1]);
 				close(tmp_fd);
+				waitpid(-1, NULL, WUNTRACED);
 				tmp_fd = fd[0];
 			}
 		}
 	}
 	close(tmp_fd);
-
-	//waitpid returns -1 when all created child processes have returned
-	while(waitpid(-1, NULL, WUNTRACED) != -1)
-		;
-
 	// if (TEST)		// not needed in exam, but necessary if you want to use this tester:
 	// 	while (1);	// https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh
 	return (0);
