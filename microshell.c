@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/04/13 11:12:36 by shackbei         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:37:41 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	main(int argc, char *argv[], char *env[])
 			{
 				close(tmp_fd);
 				while(waitpid(-1, NULL, WUNTRACED) != -1)
+					;
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
