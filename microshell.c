@@ -6,7 +6,7 @@
 /*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/04/14 16:37:41 by shackbei         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:13:20 by shackbei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_putstr_fd2(char *str)
 int ft_execute(char *argv[], int i, char *env[])
 {
 	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
-	//we are here in the child so it has no impact in the Parrent Proces.
+	//we are here in the child so it has no impact in the parent process.
 	argv[i] = NULL;
 	execve(argv[0], argv, env);
 	ft_putstr_fd2("error: cannot execute ");
@@ -59,7 +59,7 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		argv = &argv[i + 1];	//the new argv start after the ; or |
 		i = 0;
-		//count until we have all invormations to execute the next child;
+		//count until we have all informations to execute the next child;
 		while (argv[i] && strcmp(argv[i], ";") && strcmp(argv[i], "|"))
 			i++;
 		if (strcmp(argv[0], "cd") == 0) //cd
