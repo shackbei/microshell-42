@@ -22,14 +22,11 @@ https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
 // # define TEST		0
 // #endif
 
-void	ft_putstr_fd2(char *str)
+int	ft_putstr_fd2(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	write(2, str, i);
+	while (*str)
+		write(2, str++, 1);
+	return(1);
 }
 
 int ft_execute(char *argv[], int i, char *env[])
@@ -38,10 +35,7 @@ int ft_execute(char *argv[], int i, char *env[])
 	//we are here in the child so it has no impact in the parent process.
 	argv[i] = NULL;
 	execve(argv[0], argv, env);
-	ft_putstr_fd2("error: cannot execute ");
-	ft_putstr_fd2(argv[0]);
-	write(2, "\n", 1);
-	return (1);
+	return (ft_putstr_fd2("error: cannot execute "), ft_putstr_fd2(argv[0]), ft_putstr_fd2("\n"));
 }
 
 int	main(int argc, char *argv[], char *env[])
