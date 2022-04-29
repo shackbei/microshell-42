@@ -22,7 +22,7 @@ https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
 // # define TEST		0
 // #endif
 
-int	ft_putstr_fd2(char *str)
+int	ft_putstr_fd2(char *str, char *arg)
 {
 	while (*str)
 		write(2, str++, 1);
