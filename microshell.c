@@ -38,6 +38,7 @@ int ft_execute(char *argv[], int i, char *env[])
 	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the parent process.
 	argv[i] = NULL;
+	close(tmp_fd);
 	execve(argv[0], argv, env);
 	return (ft_putstr_fd2("error: cannot execute ", argv[0]);
 }
@@ -73,7 +74,6 @@ int	main(int argc, char *argv[], char *env[])
 			if ( pid == 0)
 			{
 				dup2(tmp_fd, STDIN_FILENO);
-				close(tmp_fd);
 				if (ft_execute(argv, i , env))
 					return (1);
 			}
@@ -95,7 +95,6 @@ int	main(int argc, char *argv[], char *env[])
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
-				close(tmp_fd);
 				if (ft_execute(argv, i , env))
 					return (1);
 			}
