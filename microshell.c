@@ -27,13 +27,13 @@ int	ft_putstr_fd2(char *str, char *arg)
 	while (*str)
 		write(2, str++, 1);
 	if (arg)
-		while(*arg)
+		while (*arg)
 			write(2, arg++, 1);
 	write(2, "\n", 1);
 	return (1);
 }
 
-int ft_execute(char *argv[], int i, char *env[])
+int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 {
 	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the parent process.
