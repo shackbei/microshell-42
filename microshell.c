@@ -33,14 +33,14 @@ int	ft_putstr_fd2(char *str, char *arg)
 	return (1);
 }
 
-int ft_execute(char *argv[], int i, char *env[])
+int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 {
 	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the parent process.
 	argv[i] = NULL;
 	close(tmp_fd);
 	execve(argv[0], argv, env);
-	return (ft_putstr_fd2("error: cannot execute ", argv[0]);
+	return (ft_putstr_fd2("error: cannot execute ", argv[0]));
 }
 
 int	main(int argc, char *argv[], char *env[])
@@ -66,7 +66,7 @@ int	main(int argc, char *argv[], char *env[])
 			if (i != 2)
 				ft_putstr_fd2("error: cd: bad arguments", NULL);
 			else if (chdir(argv[1]) != 0)
-				ft_putstr_fd2("error: cd: cannot change directory to ", argv[1);
+				ft_putstr_fd2("error: cd: cannot change directory to ", argv[1]	);
 		}
 		else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
 		{
@@ -74,7 +74,7 @@ int	main(int argc, char *argv[], char *env[])
 			if ( pid == 0)
 			{
 				dup2(tmp_fd, STDIN_FILENO);
-				if (ft_execute(argv, i , env))
+				if (ft_execute(argv, i, tmp_fd, env))
 					return (1);
 			}
 			else
@@ -95,7 +95,7 @@ int	main(int argc, char *argv[], char *env[])
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
-				if (ft_execute(argv, i , env))
+				if (ft_execute(argv, i, tmp_fd, env))
 					return (1);
 			}
 			else
