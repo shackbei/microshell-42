@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shackbei <shackbei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbechtol <fbechtol@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/04/27 11:13:20 by shackbei         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:31:48 by fbechtol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the parent process.
 	argv[i] = NULL;
+	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
 	execve(argv[0], argv, env);
 	return (ft_putstr_fd2("error: cannot execute ", argv[0]));
@@ -73,7 +74,6 @@ int	main(int argc, char *argv[], char *env[])
 			pid = fork();
 			if ( pid == 0)
 			{
-				dup2(tmp_fd, STDIN_FILENO);
 				if (ft_execute(argv, i, tmp_fd, env))
 					return (1);
 			}
@@ -91,7 +91,6 @@ int	main(int argc, char *argv[], char *env[])
 			pid = fork();
 			if ( pid == 0)
 			{
-				dup2(tmp_fd, STDIN_FILENO);
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
