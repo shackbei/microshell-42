@@ -47,12 +47,10 @@ int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 int	main(int argc, char *argv[], char *env[])
 {
 	int	i;
-	int pid;
 	int fd[2];
 	int tmp_fd;
 	(void)argc;	// is needed in exam, because the exam tester compiles with -Wall -Wextra -Werror
 
-	pid = 0;
 	i = 0;
 	tmp_fd = dup(STDIN_FILENO);
 	while (argv[i] && argv[i + 1]) //check if the end is reached
@@ -71,8 +69,7 @@ int	main(int argc, char *argv[], char *env[])
 		}
 		else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
 		{
-			pid = fork();
-			if ( pid == 0)
+			if ( fork() == 0)
 			{
 				if (ft_execute(argv, i, tmp_fd, env))
 					return (1);
@@ -88,8 +85,7 @@ int	main(int argc, char *argv[], char *env[])
 		else if(i != 0 && strcmp(argv[i], "|") == 0) //pipe
 		{
 			pipe(fd);
-			pid = fork();
-			if ( pid == 0)
+			if ( fork() == 0)
 			{
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
