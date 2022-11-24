@@ -35,7 +35,7 @@ int	ft_putstr_fd2(char *str, char *arg)
 
 int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 {
-	//overwrite ; or | or NULL whith NULL to use the array as input for execve.
+	//overwrite ; or | or NULL with NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the parent process.
 	argv[i] = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
