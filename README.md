@@ -38,4 +38,17 @@ Why the parent need to close the duplicate (line 79) and redup it straight after
 
   
   </details>
+  
+  
+  <details>
+  <summary>Question 4</summary>
+  
+Why do we use WUNTRACED flag?
+  
+</br>
+
+- __Answer:__ The purpose of using WUNTRACED in this context is to ensure that the parent process waits for the child process to complete or enter a stopped state before continuing execution. This is necessary to prevent race conditions and ensure that the child process has completed its execution before the parent process tries to read or write from the pipe or modify any shared resources.
+
+  
+  </details>
 
