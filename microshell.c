@@ -6,7 +6,7 @@
 /*   By: fbechtol <fbechtol@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/05/19 14:31:48 by fbechtol         ###   ########.fr       */
+/*   Updated: 2023/03/30 10:27:32 by tiago            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	main(int argc, char *argv[], char *env[])
 			else if (chdir(argv[1]) != 0)
 				ft_putstr_fd2("error: cd: cannot change directory to ", argv[1]	);
 		}
-		else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
+		//else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
+		else if ((i != 0 && argv[i] == NULL) || (i != 0 && strcmp(argv[i], ";") == 0)) //this line avoids SEGV on school's exam grademe
 		{
 			if ( fork() == 0)
 			{
