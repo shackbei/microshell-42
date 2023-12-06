@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbechtol <fbechtol@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: astein <astein@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:15:17 by shackbei          #+#    #+#             */
-/*   Updated: 2022/05/19 14:31:48 by fbechtol         ###   ########.fr       */
+/*   Updated: 2023/12/06 23:29:19 by astein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <stdlib.h>
 
 /*not needed in exam, but necessary if you want to use this tester:
 https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
@@ -22,7 +23,7 @@ https://github.com/Glagan/42-exam-rank-04/blob/master/microshell/test.sh*/
 // # define TEST		0
 // #endif
 
-int	ft_putstr_fd2(char *str, char *arg)
+void	ft_putstr_fd2(char *str, char *arg)
 {
 	while (*str)
 		write(2, str++, 1);
@@ -30,10 +31,9 @@ int	ft_putstr_fd2(char *str, char *arg)
 		while(*arg)
 			write(2, arg++, 1);
 	write(2, "\n", 1);
-	return (1);
 }
 
-int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
+void ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 {
 	//overwrite ; or | or NULL with NULL to use the array as input for execve.
 	//we are here in the child so it has no impact in the parent process.
@@ -41,7 +41,8 @@ int ft_execute(char *argv[], int i, int tmp_fd, char *env[])
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
 	execve(argv[0], argv, env);
-	return (ft_putstr_fd2("error: cannot execute ", argv[0]));
+	ft_putstr_fd2("error: cannot execute ", argv[0]);
+	exit(1);
 }
 
 int	main(int argc, char *argv[], char *env[])
@@ -70,10 +71,7 @@ int	main(int argc, char *argv[], char *env[])
 		else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) //exec in stdout
 		{
 			if ( fork() == 0)
-			{
-				if (ft_execute(argv, i, tmp_fd, env))
-					return (1);
-			}
+				ft_execute(argv, i, tmp_fd, env);
 			else
 			{
 				close(tmp_fd);
@@ -90,8 +88,7 @@ int	main(int argc, char *argv[], char *env[])
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
-				if (ft_execute(argv, i, tmp_fd, env))
-					return (1);
+				ft_execute(argv, i, tmp_fd, env);
 			}
 			else
 			{
